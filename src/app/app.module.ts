@@ -9,6 +9,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
+import { HomeComponent } from './features/home/home.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -17,7 +18,8 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
