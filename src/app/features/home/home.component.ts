@@ -4,8 +4,7 @@ import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
   user: User | null;

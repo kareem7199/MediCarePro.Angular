@@ -7,6 +7,7 @@ import { User } from '../../shared/models/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Claims } from 'src/app/shared/enums/claims.enum';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    public jwtHelper: JwtHelperService
+    public jwtHelper: JwtHelperService,
+    private router: Router
   ) {}
 
   login(email: string, password: string): Observable<User> {
@@ -54,6 +56,7 @@ export class AuthService {
   logout(): void {
     // Remove the token from local storage
     localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
