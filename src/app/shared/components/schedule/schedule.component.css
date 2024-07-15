@@ -1,0 +1,57 @@
+body {
+    overflow: hidden;
+}
+
+#weekHeader {
+    height: 2%;
+}
+
+.headerDay {
+    width: calc(100vw / 4);
+}
+
+.selectedCell {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px;
+}
+
+.visit {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 10px;
+}
+
+.time-column {
+    width: 10%; /* Adjust width as needed */
+    text-align: center;
+    cursor: pointer;
+}
+
+.day-column {
+    width: calc(100% / 4); /* Adjust width as needed */
+    text-align: center;
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table thead th,
+.table tbody td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.disabled {
+    background-color: grey;
+}
+
+.cell p {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -5,6 +5,7 @@ import { RoleGuard } from './core/guards/role.guard';
 import { Role } from './shared/enums/role.enum';
 import { HomeComponent } from './features/home/home.component';
 import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
+import { AppointmentsComponent } from './features/appointments/appointments.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,6 +19,12 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: [Role.Physician, Role.Reception] },
+      },
+      {
+        path: 'appointments',
+        component: AppointmentsComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: [Role.Reception] },
       },
     ],
   },

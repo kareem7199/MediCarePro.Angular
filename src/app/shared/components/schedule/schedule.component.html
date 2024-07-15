@@ -1,0 +1,51 @@
+<div id="header" class="d-flex align-middle justify-content-around my-3">
+  <button (click)="previous()" class="btn btn-primary">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  <h3 class="d-inline-block align-middle" id="month">
+    {{ days[0].toDateString() }} - {{ days[2].toDateString() }}
+  </h3>
+  <button (click)="next()" class="btn btn-primary">
+    <i class="fa-solid fa-arrow-right"></i>
+  </button>
+</div>
+
+<table class="table table-bordered vh-100 overflow-hidden">
+  <thead>
+    <tr class="text-center" id="weekHeader">
+      <th class="time-column">Time</th>
+      <th *ngFor="let day of days" class="day-column">
+        {{ day.toDateString() }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let slot of slots; let i = index">
+      <td class="time-column">{{ slot }}</td>
+      <ng-container *ngFor="let day of days">
+        <td
+          (click)="selectTime(i, day)"
+          *ngIf="isDisplayed(i, day)"
+          class="day"
+          [class.selectedCell]="isSelected(i, day)"
+          [class.visit]="isVisit(day, i)"
+          [class.cell]="isVisit(day, i) || isSelected(i, day)"
+          [ngStyle]="{ cursor: isSelected(i, day) || isVisit(day, i) ? 'default' : 'pointer' }"
+          [class.disabled]="isSlotDisabled(day, i)"
+          [attr.rowSpan]="isSelected(i, day) || isVisit(day, i) ? 3 : 1"
+          class="time-column"
+        >
+        <p>          {{
+            isSelected(i, day)
+              ? timeSelected.patient
+              : isVisit(day, i)
+              ? getVisit(i, day)?.patientName
+              : ""
+          }}</p>
+        </td>
+      </ng-container>
+    </tr>
+    <!-- Repeat rows for each hour until 12:00 AM -->
+  </tbody>
+</table>

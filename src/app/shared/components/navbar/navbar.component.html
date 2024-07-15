@@ -13,6 +13,11 @@
             >Home</a
           >
         </li>
+        <li *ngIf="_authService.getUserData()?.role === 'Reception'" class="nav-item">
+          <a class="nav-link" routerLink="appointments" routerLinkActive="active"
+            >Appointments</a
+          >
+        </li>
       </ul>
     </div>
     <button (click)="_authService.logout()" class="btn btn-danger ml-auto">

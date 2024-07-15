@@ -12,6 +12,8 @@ import { LoginComponent } from './features/login/login.component';
 import { HomeComponent } from './features/home/home.component';
 import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { AppointmentsComponent } from './features/appointments/appointments.component';
+import { ScheduleComponent } from './shared/components/schedule/schedule.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -23,7 +25,9 @@ export function tokenGetter() {
     LoginComponent,
     HomeComponent,
     MainLayoutComponent,
-    NavbarComponent
+    NavbarComponent,
+    AppointmentsComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

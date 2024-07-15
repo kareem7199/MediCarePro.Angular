@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Role } from '../../enums/role.enum';
 
 @Component({
   selector: 'app-navbar',
