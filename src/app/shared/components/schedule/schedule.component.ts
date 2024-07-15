@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { PhysicianSchedule } from '../../models/PhysicianSchedule.model';
 import { ToastrService } from 'ngx-toastr';
+import { ReceptionScreenService } from 'src/app/core/services/reception-screen.service';
+import { Visit } from '../../models/Visit.model';
 
 interface SelectedTime {
   index: number;
   patient: string;
   day: Date;
-}
-
-interface Visit {
-  patientName: string;
-  date: Date;
 }
 
 @Component({
@@ -26,34 +23,60 @@ export class ScheduleComponent implements OnInit {
   };
 
   visits: Visit[] = [
-    { patientName: 'Ahmed', date: new Date('2024-07-13T14:30:00') },
-    { patientName: 'Mahmoud Alaa', date: new Date('2024-07-16T17:30:00') },
-    { patientName: 'Hesham Mohammed', date: new Date('2024-07-16T16:30:00') },
-    { patientName: 'Mahmoud Samir', date: new Date('2024-07-16T13:30:00') },
+    // { patientName: 'Ahmed', date: new Date('2024-07-13T14:30:00') },
+    // { patientName: 'Mahmoud Alaa', date: new Date('2024-07-16T17:30:00') },
+    // { patientName: 'Hesham Mohammed', date: new Date('2024-07-16T16:30:00') },
+    // { patientName: 'Mahmoud Samir', date: new Date('2024-07-16T13:30:00') },
   ];
 
   days: Date[] = [];
   skipDays = 0;
-  physicianSchedule: PhysicianSchedule[] = [
-    { id: 1, day: 'Saturday', startTime: '14:30:00', endTime: '20:00:00' },
-    { id: 3, day: 'Sunday', startTime: '14:15:00', endTime: '21:15:00' },
-    { id: 4, day: 'Monday', startTime: '15:30:00', endTime: '17:30:00' },
-    { id: 5, day: 'Tuesday', startTime: '13:30:00', endTime: '18:30:00' },
-  ];
+  physicianSchedule: PhysicianSchedule[] = [];
 
   startTime!: string;
   endTime!: string;
   slots: string[] = [];
 
-  constructor(private _toastr: ToastrService) {}
+  constructor(
+    private _toastr: ToastrService,
+    private _receptionScreenService: ReceptionScreenService
+  ) {}
   ngOnInit(): void {
-    this.initializeSchedule();
+    this._receptionScreenService
+      .getPhysicianSchedule('22a17dc1-0cda-4a9b-b8dc-1feb6490cd57')
+      .subscribe({
+        next: (response) => {
+          this.physicianSchedule = response;
+          this.initializeSchedule();
+        },
+      });
   }
 
   private initializeSchedule() {
     this.generateDays();
     this.timeSelected.day = this.days[0];
     this.generateTimeSlots();
+    this.fetchVisits();
+  }
+
+  fetchVisits() {
+   const to = new Date(this.days[2]);
+   to.setDate(to.getDate() + 1);
+    this._receptionScreenService
+      .getPhysicianVisits(
+        '22a17dc1-0cda-4a9b-b8dc-1feb6490cd57',
+        this.days[0],
+        to
+      )
+      .subscribe({
+        next: (response) => {
+          response = response.map((visit) => {
+            visit.date = new Date(visit.date);
+            return visit;
+          });
+          this.visits = response;
+        },
+      });
   }
 
   private generateDays() {
@@ -146,11 +169,13 @@ export class ScheduleComponent implements OnInit {
   next() {
     this.skipDays++;
     this.generateDays();
+    this.fetchVisits();
   }
 
   previous() {
     this.skipDays--;
     this.generateDays();
+    this.fetchVisits();
   }
 
   private compareDates(d1: Date, d2: Date): boolean {
