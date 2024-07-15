@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PhysicianSchedule } from '../../models/PhysicianSchedule.model';
+import { ToastrService } from 'ngx-toastr';
 
 interface SelectedTime {
   index: number;
@@ -44,6 +45,11 @@ export class ScheduleComponent implements OnInit {
   endTime!: string;
   slots: string[] = [];
 
+  /**
+   *
+   */
+  constructor(private  _toastr : ToastrService) {
+  }
   ngOnInit(): void {
     this.initializeSchedule();
   }
@@ -97,14 +103,23 @@ export class ScheduleComponent implements OnInit {
   }
 
   selectTime(index: number, day: Date) {
-    if (
-      !this.isSlotDisabled(day, index) &&
-      !this.isVisit(day, index) &&
-      !this.isVisit(day, index + 1)
-    ) {
-      this.timeSelected.day = day;
-      this.timeSelected.index = index;
+    if (this.isSlotDisabled(day, index)) {
+      this._toastr.error('This slot is outside the physician\'s available hours', 'Unavailable Slot');
+      return;
     }
+  
+    if (this.isVisit(day, index)) {
+      this._toastr.error('This slot is already booked by another patient', 'Unavailable Slot');
+      return;
+    }
+  
+    if (this.isVisit(day, index + 1)) {
+      this._toastr.error('The subsequent slot is already booked by another patient', 'Unavailable Slot');
+      return;
+    }
+  
+    this.timeSelected.day = day;
+    this.timeSelected.index = index;
   }
 
   isDisplayed(index: number, day: Date) {
