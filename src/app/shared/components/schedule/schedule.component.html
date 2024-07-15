@@ -2,7 +2,6 @@
   <button (click)="previous()" class="btn btn-primary">
     <i class="fa-solid fa-arrow-left"></i>
   </button>
-
   <h3 class="d-inline-block align-middle" id="month">
     {{ days[0].toDateString() }} - {{ days[2].toDateString() }}
   </h3>
@@ -27,25 +26,30 @@
         <td
           (click)="selectTime(i, day)"
           *ngIf="isDisplayed(i, day)"
-          class="day"
-          [class.selectedCell]="isSelected(i, day)"
-          [class.visit]="isVisit(day, i)"
-          [class.cell]="isVisit(day, i) || isSelected(i, day)"
-          [ngStyle]="{ cursor: isSelected(i, day) || isVisit(day, i) ? 'default' : 'pointer' }"
-          [class.disabled]="isSlotDisabled(day, i)"
-          [attr.rowSpan]="isSelected(i, day) || isVisit(day, i) ? 3 : 1"
+          [ngClass]="{
+            selectedCell: isSelected(i, day),
+            visit: isVisit(day, i),
+            cell: isVisit(day, i) || isSelected(i, day),
+            disabled: isSlotDisabled(day, i)
+          }"
+          [ngStyle]="{
+            cursor:
+              isSelected(i, day) || isVisit(day, i) ? 'default' : 'pointer'
+          }"
+          [attr.rowSpan]="isSelected(i, day) || isVisit(day, i) ? 2 : 1"
           class="time-column"
         >
-        <p>          {{
-            isSelected(i, day)
-              ? timeSelected.patient
-              : isVisit(day, i)
-              ? getVisit(i, day)?.patientName
-              : ""
-          }}</p>
+          <p>
+            {{
+              isSelected(i, day)
+                ? timeSelected.patient
+                : isVisit(day, i)
+                ? getVisit(i, day)?.patientName
+                : ""
+            }}
+          </p>
         </td>
       </ng-container>
     </tr>
-    <!-- Repeat rows for each hour until 12:00 AM -->
   </tbody>
 </table>
