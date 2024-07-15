@@ -45,11 +45,7 @@ export class ScheduleComponent implements OnInit {
   endTime!: string;
   slots: string[] = [];
 
-  /**
-   *
-   */
-  constructor(private  _toastr : ToastrService) {
-  }
+  constructor(private _toastr: ToastrService) {}
   ngOnInit(): void {
     this.initializeSchedule();
   }
@@ -104,20 +100,29 @@ export class ScheduleComponent implements OnInit {
 
   selectTime(index: number, day: Date) {
     if (this.isSlotDisabled(day, index)) {
-      this._toastr.error('This slot is outside the physician\'s available hours', 'Unavailable Slot');
+      this._toastr.error(
+        "This slot is outside the physician's available hours",
+        'Unavailable Slot'
+      );
       return;
     }
-  
+
     if (this.isVisit(day, index)) {
-      this._toastr.error('This slot is already booked by another patient', 'Unavailable Slot');
+      this._toastr.error(
+        'This slot is already booked by another patient',
+        'Unavailable Slot'
+      );
       return;
     }
-  
+
     if (this.isVisit(day, index + 1)) {
-      this._toastr.error('The subsequent slot is already booked by another patient', 'Unavailable Slot');
+      this._toastr.error(
+        'The subsequent slot is already booked by another patient',
+        'Unavailable Slot'
+      );
       return;
     }
-  
+
     this.timeSelected.day = day;
     this.timeSelected.index = index;
   }

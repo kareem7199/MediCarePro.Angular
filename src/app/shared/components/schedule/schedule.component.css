@@ -17,7 +17,7 @@ body {
 }
 
 .visit {
-    background-color: #dc3545;
+    background-color: #0dcaf0;
     color: white;
     border-radius: 10px;
 }
@@ -46,7 +46,7 @@ body {
 }
 
 .disabled {
-    background-color: grey;
+    background-color: #E8E8E8;
 }
 
 .cell p {
