@@ -3,6 +3,10 @@ import { PhysicianSchedule } from '../../models/PhysicianSchedule.model';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionScreenService } from 'src/app/core/services/reception-screen.service';
 import { Visit } from '../../models/Visit.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ScheduleDialogComponent } from '../schedule-dialog/schedule-dialog.component';
+import { VisitNotificationService } from 'src/app/core/services/visit-notification.service';
+import { Subscription } from 'rxjs';
 
 interface SelectedTime {
   index: number;
@@ -16,12 +20,6 @@ interface SelectedTime {
   styleUrls: ['./schedule.component.css'],
 })
 export class ScheduleComponent implements OnInit {
-  timeSelected: SelectedTime = {
-    index: -5,
-    patient: 'Kareem Tamer',
-    day: new Date(),
-  };
-
   visits: Visit[] = [
     // { patientName: 'Ahmed', date: new Date('2024-07-13T14:30:00') },
     // { patientName: 'Mahmoud Alaa', date: new Date('2024-07-16T17:30:00') },
@@ -32,18 +30,36 @@ export class ScheduleComponent implements OnInit {
   days: Date[] = [];
   skipDays = 0;
   physicianSchedule: PhysicianSchedule[] = [];
+  timeSelected: {
+    physicianSchedule: PhysicianSchedule | undefined;
+    date: Date;
+    time: string;
+  } = {
+    physicianSchedule: this.physicianSchedule[0],
+    date: new Date(),
+    time: '',
+  };
 
   startTime!: string;
   endTime!: string;
   slots: string[] = [];
 
+  private subscription: Subscription;
   constructor(
     private _toastr: ToastrService,
-    private _receptionScreenService: ReceptionScreenService
-  ) {}
+    private _receptionScreenService: ReceptionScreenService,
+    public dialog: MatDialog,
+    private visitNotificationService: VisitNotificationService
+  ) {
+    this.subscription = this.visitNotificationService.visitAdded$.subscribe(
+      () => {
+        this.fetchVisits();
+      }
+    );
+  }
   ngOnInit(): void {
     this._receptionScreenService
-      .getPhysicianSchedule('22a17dc1-0cda-4a9b-b8dc-1feb6490cd57')
+      .getPhysicianSchedule('35ac1906-2a1e-4be7-9dd6-db30fb7b71f6')
       .subscribe({
         next: (response) => {
           this.physicianSchedule = response;
@@ -52,19 +68,38 @@ export class ScheduleComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ScheduleDialogComponent, {
+      width: '70%',
+      data: {
+        physicianSchedule: this.timeSelected.physicianSchedule,
+        date: this.timeSelected.date,
+        time: this.timeSelected.time,
+      }, // Pass any data if needed
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      // Handle any actions after dialog is closed
+    });
+  }
+
   private initializeSchedule() {
     this.generateDays();
-    this.timeSelected.day = this.days[0];
+    // this.timeSelected.day = this.days[0];
     this.generateTimeSlots();
     this.fetchVisits();
   }
 
   fetchVisits() {
-   const to = new Date(this.days[2]);
-   to.setDate(to.getDate() + 1);
+    const to = new Date(this.days[2]);
+    to.setDate(to.getDate() + 1);
     this._receptionScreenService
       .getPhysicianVisits(
-        '22a17dc1-0cda-4a9b-b8dc-1feb6490cd57',
+        '35ac1906-2a1e-4be7-9dd6-db30fb7b71f6',
         this.days[0],
         to
       )
@@ -146,25 +181,24 @@ export class ScheduleComponent implements OnInit {
       return;
     }
 
-    this.timeSelected.day = day;
-    this.timeSelected.index = index;
+    this.timeSelected.date = day;
+    this.timeSelected.physicianSchedule = this.physicianSchedule.find(
+      (PS) => PS.day === this.getDayFromDate(day)
+    );
+    this.timeSelected.time = this.slots[index];
+    this.openDialog();
   }
 
   isDisplayed(index: number, day: Date) {
-    return (
-      !this.isVisit(day, index - 1) &&
-      (!this.compareDates(this.timeSelected.day, day) ||
-        this.isSelected(index, day) ||
-        index - this.timeSelected.index !== 1)
-    );
+    return !this.isVisit(day, index - 1);
   }
 
-  isSelected(index: number, day: Date) {
-    return (
-      this.timeSelected.index === index &&
-      this.compareDates(this.timeSelected.day, day)
-    );
-  }
+  // isSelected(index: number, day: Date) {
+  //   return (
+  //     this.timeSelected.index === index &&
+  //     this.compareDates(this.timeSelected.day, day)
+  //   );
+  // }
 
   next() {
     this.skipDays++;

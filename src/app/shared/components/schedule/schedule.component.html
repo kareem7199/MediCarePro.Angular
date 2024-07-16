@@ -27,26 +27,18 @@
           (click)="selectTime(i, day)"
           *ngIf="isDisplayed(i, day)"
           [ngClass]="{
-            selectedCell: isSelected(i, day),
             visit: isVisit(day, i),
-            cell: isVisit(day, i) || isSelected(i, day),
+            cell: isVisit(day, i),
             disabled: isSlotDisabled(day, i)
           }"
           [ngStyle]="{
-            cursor:
-              isSelected(i, day) || isVisit(day, i) ? 'default' : 'pointer'
+            cursor: isVisit(day, i) ? 'default' : 'pointer'
           }"
-          [attr.rowSpan]="isSelected(i, day) || isVisit(day, i) ? 2 : 1"
+          [attr.rowSpan]="isVisit(day, i) ? 2 : 1"
           class="time-column"
         >
           <p>
-            {{
-              isSelected(i, day)
-                ? timeSelected.patient
-                : isVisit(day, i)
-                ? getVisit(i, day)?.patientName
-                : ""
-            }}
+            {{ isVisit(day, i) ? getVisit(i, day)?.patientName : "" }}
           </p>
         </td>
       </ng-container>

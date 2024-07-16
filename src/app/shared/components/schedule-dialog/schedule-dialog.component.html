@@ -1,0 +1,66 @@
+<mat-dialog-content>
+  <h1 class="text-center">{{ this.date.toDateString() }} - {{ this.time }}</h1>
+  <form #searchForm="ngForm" class="container-fluid" (ngSubmit)="onSearch()">
+    <div class="row gy-3 gy-md-4 overflow-hidden">
+      <div class="col-12">
+        <label for="patientSearch" class="form-label">Search Patient</label>
+        <div class="input-group">
+          <input
+            [(ngModel)]="searchTerm"
+            type="text"
+            class="form-control"
+            name="patientSearch"
+            id="patientSearch"
+            placeholder="Enter patient name or phone number or ID"
+          />
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="noResultsFound">
+        <p class="text-danger">No results found.</p>
+      </div>
+      <div class="col-12" *ngIf="searchResults.length > 0">
+        <h3>Search Results</h3>
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            *ngFor="let patient of searchResults"
+            (click)="selectPatient(patient)"
+            [class.selected]="selectedPatient === patient"
+          >
+            {{ patient.name }} ({{ patient.id }})
+          </li>
+        </ul>
+      </div>
+      <div class="col-12" *ngIf="selectedPatient">
+        <div class="card mb-3">
+          <div class="card-header">Selected Patient</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: {{ selectedPatient.id }}</li>
+            <li class="list-group-item">Name: {{ selectedPatient.name }}</li>
+            <li class="list-group-item">
+              Phone: {{ selectedPatient.phoneNumber }}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <label for="physicanFees" class="form-label">Physician Fees</label>
+          <div class="input-group">
+            <input
+              [(ngModel)]="physicianFees"
+              type="number"
+              class="form-control"
+              name="physicanFees"
+              id="physicanFees"
+              required
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-dialog-close class="btn btn-danger">Close</button>
+  <button class="btn btn-primary ms-2" (click)="save()">Save</button>
+</mat-dialog-actions>
