@@ -1,47 +1,52 @@
-<div id="header" class="d-flex align-middle justify-content-around my-3">
-  <button (click)="previous()" class="btn btn-primary">
-    <i class="fa-solid fa-arrow-left"></i>
-  </button>
-  <h3 class="d-inline-block align-middle" id="month">
-    {{ days[0].toDateString() }} - {{ days[2].toDateString() }}
-  </h3>
-  <button (click)="next()" class="btn btn-primary">
-    <i class="fa-solid fa-arrow-right"></i>
-  </button>
-</div>
+<div *ngIf="slots.length > 0">
+  <div id="header" class="d-flex align-middle justify-content-around my-3">
+    <button (click)="previous()" class="btn btn-primary">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <h3 class="d-inline-block align-middle" id="month">
+      {{ days[0].toDateString() }} - {{ days[2].toDateString() }}
+    </h3>
+    <button (click)="next()" class="btn btn-primary">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
 
-<table class="table table-bordered vh-100 overflow-hidden">
-  <thead>
-    <tr class="text-center" id="weekHeader">
-      <th class="time-column">Time</th>
-      <th *ngFor="let day of days" class="day-column">
-        {{ day.toDateString() }}
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let slot of slots; let i = index">
-      <td class="time-column">{{ slot }}</td>
-      <ng-container *ngFor="let day of days">
-        <td
-          (click)="selectTime(i, day)"
-          *ngIf="isDisplayed(i, day)"
-          [ngClass]="{
-            visit: isVisit(day, i),
-            cell: isVisit(day, i),
-            disabled: isSlotDisabled(day, i)
-          }"
-          [ngStyle]="{
-            cursor: isVisit(day, i) ? 'default' : 'pointer'
-          }"
-          [attr.rowSpan]="isVisit(day, i) ? 2 : 1"
-          class="time-column"
-        >
-          <p>
-            {{ isVisit(day, i) ? getVisit(i, day)?.patientName : "" }}
-          </p>
-        </td>
-      </ng-container>
-    </tr>
-  </tbody>
-</table>
+  <table class="table table-bordered vh-100 overflow-hidden">
+    <thead>
+      <tr class="text-center" id="weekHeader">
+        <th class="time-column">Time</th>
+        <th *ngFor="let day of days" class="day-column">
+          {{ day.toDateString() }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let slot of slots; let i = index">
+        <td class="time-column">{{ slot }}</td>
+        <ng-container *ngFor="let day of days">
+          <td
+            (click)="selectTime(i, day)"
+            *ngIf="isDisplayed(i, day)"
+            [ngClass]="{
+              visit: isVisit(day, i),
+              cell: isVisit(day, i),
+              disabled: isSlotDisabled(day, i)
+            }"
+            [ngStyle]="{
+              cursor: isVisit(day, i) ? 'default' : 'pointer'
+            }"
+            [attr.rowSpan]="isVisit(day, i) ? 2 : 1"
+            class="time-column"
+          >
+            <p>
+              {{ isVisit(day, i) ? getVisit(i, day)?.patientName : "" }}
+            </p>
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="alert-warning w-100 my-5 text-center d-flex alert" *ngIf="slots.length === 0 ">
+  <p>No slots available</p>
+</div>

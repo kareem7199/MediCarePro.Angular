@@ -1,51 +1,51 @@
-<div class="container my-5">
-  <h2>Select Specialty</h2>
-  <form class="col-12" (ngSubmit)="onSubmitSpecialty()">
-    <div class="form-group">
-      <label for="specialtySelect" class="mb-2">Choose a Specialty:</label>
-      <div class="input-group">
-        <select
-          class="form-control"
-          id="specialtySelect"
-          [(ngModel)]="selectedSpecialtyId"
-          name="specialty"
-          required
-        >
-          <option *ngFor="let specialty of specialties" [value]="specialty.id">
-            {{ specialty.name }}
-          </option>
-        </select>
-        <button type="submit" class="btn btn-primary">Submit</button>
+<div class="appointments">
+  
+  <div class="container my-5">
+    <h2>Select Specialty</h2>
+    <form class="col-12" (ngSubmit)="onSubmitSpecialty()">
+      <div class="form-group">
+        <label for="specialtySelect" class="mb-2">Choose a Specialty:</label>
+        <div class="input-group">
+          <select
+            class="form-control"
+            id="specialtySelect"
+            [(ngModel)]="selectedSpecialtyId"
+            name="specialty"
+            required
+          >
+            <option
+              *ngFor="let specialty of specialties"
+              [value]="specialty.id"
+            >
+              {{ specialty.name }}
+            </option>
+          </select>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+  
+  <div class="col-12" *ngIf="noResultsFound">
+    <p class="text-danger">No Physicians found.</p>
+  </div>
 
-<div class="container my-5">
-  <h2>Select Physician</h2>
-  <form class="col-12" (ngSubmit)="onSubmitSpecialty()">
-    <div class="form-group">
-      <label for="physicianSelect" class="mb-2">Choose a Physician:</label>
-      <div class="input-group">
-        <select
-          class="form-control"
-          id="physicianSelect"
-          [(ngModel)]="selectedphysicianId"
-          name="physician"
-          required
-        >
-          <option [value]=""></option>
-          <option *ngFor="let physician of physicians" [value]="physician.id">
-            {{ physician.name }}
-          </option>
-        </select>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </form>
-</div>
+  <div class="col-12" *ngIf="physicians.length > 0">
+    <h3>Physicians</h3>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let physician of physicians"
+        [class.selected]="selectedphysicianId === physician.id"
+        (click)="onSelectPhysician(physician.id)"
+      >
+        {{ physician.name }}
+      </li>
+    </ul>
+  </div>
 
-<app-schedule
-  *ngIf="isPhysicianFound()"
-  [physicianId]="selectedphysicianId"
-></app-schedule>
+  <app-schedule
+    *ngIf="isPhysicianFound()"
+    [physicianId]="selectedphysicianId"
+  ></app-schedule>
+</div>

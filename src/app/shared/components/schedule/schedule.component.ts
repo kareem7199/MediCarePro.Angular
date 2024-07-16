@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PhysicianSchedule } from '../../models/PhysicianSchedule.model';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionScreenService } from 'src/app/core/services/reception-screen.service';
@@ -19,7 +19,7 @@ interface SelectedTime {
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css'],
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit , OnChanges{
   visits: Visit[] = [
     // { patientName: 'Ahmed', date: new Date('2024-07-13T14:30:00') },
     // { patientName: 'Mahmoud Alaa', date: new Date('2024-07-16T17:30:00') },
@@ -57,6 +57,14 @@ export class ScheduleComponent implements OnInit {
         this.fetchVisits();
       }
     );
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['physicianId']){
+      this.physicianId = changes['physicianId'].currentValue
+      this.physicianSchedule = [];
+      this.slots = [];
+      this.ngOnInit();
+    }
   }
   ngOnInit(): void {
     this._receptionScreenService

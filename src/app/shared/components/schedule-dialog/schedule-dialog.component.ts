@@ -58,7 +58,7 @@ export class ScheduleDialogComponent {
     this._receptionScreenService
       .createVisit(
         this.physicianFees ?? 0,
-        '35ac1906-2a1e-4be7-9dd6-db30fb7b71f6',
+        this.physicianId,
         this.selectedPatient.id,
         this.physicianSchedule.id,
         this.setTimeToDate(this.date , this.time)

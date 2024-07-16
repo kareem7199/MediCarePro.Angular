@@ -1,0 +1,12 @@
+.appointments {
+  min-height: 100dvh;
+  flex-direction: column;
+  display: flex;
+  align-items: start;
+}
+
+.selected {
+  background-color: #007bff;
+  color: white;
+  border-radius: 10px;
+}
