@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PhysicianSchedule } from '../../models/PhysicianSchedule.model';
 import { ToastrService } from 'ngx-toastr';
 import { ReceptionScreenService } from 'src/app/core/services/reception-screen.service';
@@ -43,6 +43,7 @@ export class ScheduleComponent implements OnInit {
   startTime!: string;
   endTime!: string;
   slots: string[] = [];
+  @Input() physicianId! : string;
 
   private subscription: Subscription;
   constructor(
@@ -59,7 +60,7 @@ export class ScheduleComponent implements OnInit {
   }
   ngOnInit(): void {
     this._receptionScreenService
-      .getPhysicianSchedule('35ac1906-2a1e-4be7-9dd6-db30fb7b71f6')
+      .getPhysicianSchedule(this.physicianId)
       .subscribe({
         next: (response) => {
           this.physicianSchedule = response;
@@ -78,6 +79,7 @@ export class ScheduleComponent implements OnInit {
         physicianSchedule: this.timeSelected.physicianSchedule,
         date: this.timeSelected.date,
         time: this.timeSelected.time,
+        physicianId : this.physicianId
       }, // Pass any data if needed
     });
 
@@ -99,7 +101,7 @@ export class ScheduleComponent implements OnInit {
     to.setDate(to.getDate() + 1);
     this._receptionScreenService
       .getPhysicianVisits(
-        '35ac1906-2a1e-4be7-9dd6-db30fb7b71f6',
+        this.physicianId,
         this.days[0],
         to
       )

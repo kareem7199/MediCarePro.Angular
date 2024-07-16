@@ -19,6 +19,7 @@ export class ScheduleDialogComponent {
   noResultsFound: boolean = false; // Add property for no results
   date!: Date;
   physicianSchedule!: PhysicianSchedule;
+  physicianId!: string;
   time: string;
 
   constructor(
@@ -32,6 +33,7 @@ export class ScheduleDialogComponent {
     this.time = data.time;
     this.physicianSchedule = data.physicianSchedule;
     this.date = data.date;
+    this.physicianId = data.physicianId
   }
 
   onSearch(): void {

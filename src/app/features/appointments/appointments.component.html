@@ -1,1 +1,51 @@
-<app-schedule></app-schedule>
+<div class="container my-5">
+  <h2>Select Specialty</h2>
+  <form class="col-12" (ngSubmit)="onSubmitSpecialty()">
+    <div class="form-group">
+      <label for="specialtySelect" class="mb-2">Choose a Specialty:</label>
+      <div class="input-group">
+        <select
+          class="form-control"
+          id="specialtySelect"
+          [(ngModel)]="selectedSpecialtyId"
+          name="specialty"
+          required
+        >
+          <option *ngFor="let specialty of specialties" [value]="specialty.id">
+            {{ specialty.name }}
+          </option>
+        </select>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container my-5">
+  <h2>Select Physician</h2>
+  <form class="col-12" (ngSubmit)="onSubmitSpecialty()">
+    <div class="form-group">
+      <label for="physicianSelect" class="mb-2">Choose a Physician:</label>
+      <div class="input-group">
+        <select
+          class="form-control"
+          id="physicianSelect"
+          [(ngModel)]="selectedphysicianId"
+          name="physician"
+          required
+        >
+          <option [value]=""></option>
+          <option *ngFor="let physician of physicians" [value]="physician.id">
+            {{ physician.name }}
+          </option>
+        </select>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-schedule
+  *ngIf="isPhysicianFound()"
+  [physicianId]="selectedphysicianId"
+></app-schedule>

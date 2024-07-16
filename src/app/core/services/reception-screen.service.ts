@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs';
 import { PhysicianSchedule } from 'src/app/shared/models/PhysicianSchedule.model';
 import { Visit } from 'src/app/shared/models/Visit.model';
+import { Specialty } from 'src/app/shared/models/Specialty.model';
+import { Physician } from 'src/app/shared/models/Physician.model';
 
 @Injectable({
   providedIn: 'root',
@@ -93,4 +95,29 @@ export class ReceptionScreenService {
       })
     );
   }
+
+  getSpecialties(){
+    return this._http.get<Specialty[]>(`${environment.apiUrl}/ReceptionScreen/Specialty` , {
+      headers: {
+        Authorization: `Bearer ${this._authService.getToken()}`,
+      },
+    }).pipe(
+      tap((response) => {
+        return response;
+      })
+    )
+  }
+
+  getPhysicians(specialtyId : number){
+    return this._http.get<Physician[]>(`${environment.apiUrl}/ReceptionScreen/Physician?specialtyId=${specialtyId}` , {
+      headers: {
+        Authorization: `Bearer ${this._authService.getToken()}`,
+      },
+    }).pipe(
+      tap((response) => {
+        return response;
+      })
+    )
+  }
+  
 }
