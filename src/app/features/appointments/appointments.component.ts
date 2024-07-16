@@ -49,8 +49,14 @@ export class AppointmentsComponent implements OnInit {
     return physician ? true : false;
   } 
 
-  onSelectPhysician(physicianId: string) {
-    this.selectedphysicianId = physicianId;
+  onSelectPhysician(e: any) {
+    this.selectedphysicianId = e.target.value;
+  }
+
+  onSelectSpecialty(e : any) {
+    this.selectedSpecialtyId = e.target.value;
+    this.selectedphysicianId = "";
+    this.fetchPhysicians();
   }
     
 }

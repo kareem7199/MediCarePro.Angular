@@ -1,5 +1,4 @@
 <div class="appointments">
-  
   <div class="container my-5">
     <h2>Select Specialty</h2>
     <form class="col-12" (ngSubmit)="onSubmitSpecialty()">
@@ -11,6 +10,7 @@
             id="specialtySelect"
             [(ngModel)]="selectedSpecialtyId"
             name="specialty"
+            (change)="onSelectSpecialty($event)"
             required
           >
             <option
@@ -20,28 +20,29 @@
               {{ specialty.name }}
             </option>
           </select>
-          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </div>
     </form>
   </div>
-  
+
   <div class="col-12" *ngIf="noResultsFound">
     <p class="text-danger">No Physicians found.</p>
   </div>
 
-  <div class="col-12" *ngIf="physicians.length > 0">
+  <div class="col-12 mb-4" *ngIf="physicians.length > 0">
     <h3>Physicians</h3>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let physician of physicians"
-        [class.selected]="selectedphysicianId === physician.id"
-        (click)="onSelectPhysician(physician.id)"
-      >
+    <select
+      class="form-control"
+      id="specialtySelect"
+      [(ngModel)]="selectedphysicianId"
+      name="specialty"
+      (change)="onSelectPhysician($event)"
+      required
+    >
+      <option *ngFor="let physician of physicians" [value]="physician.id">
         {{ physician.name }}
-      </li>
-    </ul>
+      </option>
+    </select>
   </div>
 
   <app-schedule
