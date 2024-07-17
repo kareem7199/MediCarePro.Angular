@@ -18,6 +18,11 @@
             >Appointments</a
           >
         </li>
+        <li *ngIf="_authService.getUserData()?.role === 'Physician'" class="nav-item">
+          <a class="nav-link" routerLink="visits" routerLinkActive="active"
+            >Visits</a
+          >
+        </li>
       </ul>
     </div>
     <button (click)="_authService.logout()" class="btn btn-danger ml-auto">

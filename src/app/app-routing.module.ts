@@ -6,6 +6,7 @@ import { Role } from './shared/enums/role.enum';
 import { HomeComponent } from './features/home/home.component';
 import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
 import { AppointmentsComponent } from './features/appointments/appointments.component';
+import { VisitsComponent } from './features/visits/visits.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,7 +14,7 @@ const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' } ,
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: HomeComponent,
@@ -25,6 +26,12 @@ const routes: Routes = [
         component: AppointmentsComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: [Role.Reception] },
+      },
+      {
+        path: 'visits',
+        component: VisitsComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: [Role.Physician] },
       },
     ],
   },

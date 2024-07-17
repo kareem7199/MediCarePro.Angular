@@ -21,6 +21,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AppointmentsComponent } from './features/appointments/appointments.component';
 import { ScheduleComponent } from './shared/components/schedule/schedule.component';
 import { ScheduleDialogComponent } from './shared/components/schedule-dialog/schedule-dialog.component';
+import { VisitsComponent } from './features/visits/visits.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -35,7 +36,8 @@ export function tokenGetter() {
     NavbarComponent,
     AppointmentsComponent,
     ScheduleComponent,
-    ScheduleDialogComponent
+    ScheduleDialogComponent,
+    VisitsComponent
   ],
   imports: [
     BrowserModule,

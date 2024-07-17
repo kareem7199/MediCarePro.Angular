@@ -1,0 +1,67 @@
+<div class="visits row">
+  <div class="col-2 py-5 border">
+    <h2 class="text-center mb-3 text-primary">Patients List</h2>
+
+    <div *ngIf="loading" class="d-flex">
+      <div class="spinner-grow text-primary mx-auto" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div class="list-group">
+      <div
+        *ngFor="let visit of visits"
+        class="list-group-item list-group-item-action cursor-pointer"
+        [class.bg-warning]="visit.diagnosis && visit.id !== selectedVisit?.id"
+        [class.active]="visit.id === selectedVisit?.id"
+        aria-current="true"
+        (click)="selectVisit(visit)"
+      >
+        <div class="w-100 justify-content-between">
+          <h5 class="mb-1">{{ visit.patientName }}</h5>
+          <small>{{ formatDate(visit.date) }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-10 p-5 bg-light rounded-end">
+    <div class="form-floating mb-3">
+      <input
+        (change)="onSelectDate($event)"
+        type="date"
+        class="form-control mb-3"
+        id="floatingInput"
+        placeholder="name@example.com"
+      />
+      <label for="floatingInput">Date</label>
+    </div>
+    <div>
+      <p *ngIf="!selectedVisit" class="alert alert-info">
+        Please select a patient from the list.
+      </p>
+      <div *ngIf="selectedVisit" class="card">
+        <div class="card-header bg-primary text-white">
+          <h1>{{ selectedVisit.patientName }}</h1>
+          <h3>{{ formatDate(selectedVisit.date) }}</h3>
+        </div>
+        <div class="card-body">
+          <form (submit)="save()">
+            <textarea
+              class="form-control"
+              [(ngModel)]="selectedVisit.diagnosis"
+              placeholder="Enter diagnosis"
+              id="diagnosis"
+              name="diagnosis"
+              rows="8"
+            ></textarea>
+            <div class="row mt-3">
+              <div class="col text-center">
+                <button class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
