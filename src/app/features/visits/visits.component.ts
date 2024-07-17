@@ -1,24 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PhysicianScreenService } from 'src/app/core/services/physician-screen.service';
 import { DetailedVisit } from 'src/app/shared/models/DetailedVisit.model';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-
+import { VisitHubService } from 'src/app/core/services/visit-hub.service';
+import { Howl } from 'howler';
 @Component({
   selector: 'app-visits',
   templateUrl: './visits.component.html',
   styleUrls: ['./visits.component.css'],
 })
-export class VisitsComponent {
+export class VisitsComponent implements OnInit {
   date!: Date;
   selectedVisit: DetailedVisit | null = null;
   visits: DetailedVisit[] = [];
   loading = false;
-
+  sound = new Howl({
+    src: ['assets/sounds/notification.mp3'],
+    volume: 1.0, // Adjust volume as needed (0.0 to 1.0)
+    onloaderror: (error) => {
+      console.error('Failed to load sound:', error);
+    }
+  })
   constructor(
     private _physicianScreenService: PhysicianScreenService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _visitHubService: VisitHubService
   ) {}
+
+  ngOnInit(): void {
+    this._visitHubService.startConnection();
+
+    this._visitHubService.visitAdded.subscribe({
+      next: (response) => {
+        const date1 = moment(this.date);
+        const date2 = moment(response.date);
+        if(date1.isSame(date2)) {
+          this.visits.push(response.visit);
+          this.visits.sort(this.sortByDate);
+          this._toastr.success('New visit added!', 'Notification');
+          this.sound.play();
+        }
+      }
+    })
+  }
 
   onSelectDate(event: any) {
     this.date = event.target.value;
@@ -58,4 +83,9 @@ export class VisitsComponent {
         },
       });
   }
+
+  private sortByDate(a: DetailedVisit, b: DetailedVisit) {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  }
+
 }
