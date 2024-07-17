@@ -32,6 +32,7 @@ export class AppointmentsComponent implements OnInit {
     this._receptionScreenService
     .getPhysicians(this.selectedSpecialtyId)
     .subscribe((response) => {
+      this.selectedphysicianId = "";
       this.physicians = response;
       this.noResultsFound = this.physicians.length === 0;
     });

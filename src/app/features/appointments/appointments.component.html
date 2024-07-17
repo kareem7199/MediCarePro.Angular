@@ -39,6 +39,7 @@
       (change)="onSelectPhysician($event)"
       required
     >
+      <option value="" [defaultSelected]="true">Select an option</option>
       <option *ngFor="let physician of physicians" [value]="physician.id">
         {{ physician.name }}
       </option>
