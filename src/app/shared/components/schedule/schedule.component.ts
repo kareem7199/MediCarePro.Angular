@@ -105,6 +105,7 @@ export class ScheduleComponent implements OnInit , OnChanges{
   }
 
   fetchVisits() {
+    this.days[0].setHours(0,0,0,0);
     const to = new Date(this.days[2]);
     to.setDate(to.getDate() + 1);
     this._receptionScreenService
@@ -115,6 +116,7 @@ export class ScheduleComponent implements OnInit , OnChanges{
       )
       .subscribe({
         next: (response) => {
+          console.log(response);
           response = response.map((visit) => {
             visit.date = new Date(visit.date);
             return visit;

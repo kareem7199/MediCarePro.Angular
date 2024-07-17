@@ -36,7 +36,7 @@ export class ReceptionScreenService {
       .get<Visit[]>(
         `${
           environment.apiUrl
-        }/ReceptionScreen/Visit/${physicianId}?from=${from.toISOString()}&to=${to.toISOString()}`,
+        }/ReceptionScreen/Visit/${physicianId}?from=${from.toString().slice(0 , 24)}&to=${to.toString().slice(0 , 24)}`,
         {
           headers: {
             Authorization: `Bearer ${this._authService.getToken()}`,
