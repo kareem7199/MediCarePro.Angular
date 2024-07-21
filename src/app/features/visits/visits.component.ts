@@ -95,4 +95,8 @@ export class VisitsComponent implements OnInit , OnDestroy {
     return new Date(a.date).getTime() - new Date(b.date).getTime();
   }
 
+  print(id : number) {
+    return `https://localhost:44302/ReportViewer?id=${id}`
+  }
+
 }
