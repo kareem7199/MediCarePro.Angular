@@ -8,6 +8,7 @@ import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.co
 import { AppointmentsComponent } from './features/appointments/appointments.component';
 import { VisitsComponent } from './features/visits/visits.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+import { AddUserComponent } from './features/add-user/add-user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +21,7 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
         canActivate: [RoleGuard],
-        data: { expectedRoles: [Role.Physician, Role.Reception] },
+        data: { expectedRoles: [Role.Physician, Role.Reception , Role.UserCreator] },
       },
       {
         path: 'appointments',
@@ -33,6 +34,12 @@ const routes: Routes = [
         component: VisitsComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: [Role.Physician] },
+      },
+      {
+        path: 'adduser',
+        component: AddUserComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: [Role.UserCreator] },
       },
     ],
   },

@@ -23,6 +23,11 @@
             >Visits</a
           >
         </li>
+        <li *ngIf="_authService.hasRole('UserCreator')" class="nav-item">
+          <a class="nav-link" routerLink="adduser" routerLinkActive="active"
+            >Add User</a
+          >
+        </li>
       </ul>
     </div>
     <button (click)="_authService.logout()" class="btn btn-danger ml-auto">

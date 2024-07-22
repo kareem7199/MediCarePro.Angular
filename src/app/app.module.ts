@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -23,6 +23,7 @@ import { ScheduleComponent } from './shared/components/schedule/schedule.compone
 import { ScheduleDialogComponent } from './shared/components/schedule-dialog/schedule-dialog.component';
 import { VisitsComponent } from './features/visits/visits.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+import { AddUserComponent } from './features/add-user/add-user.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -39,12 +40,14 @@ export function tokenGetter() {
     ScheduleComponent,
     ScheduleDialogComponent,
     VisitsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
