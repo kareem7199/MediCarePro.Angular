@@ -48,7 +48,7 @@ export class AddUserComponent implements OnInit {
         this.showContent = true;
       },
       error: (error) => {
-        this._toastr.error(error , 'Error');
+        this._toastr.error("Something went wrong" , 'Error');
       },
     });
   }
@@ -60,7 +60,7 @@ export class AddUserComponent implements OnInit {
         this.showSpecialties = true;
       },
       error: (error) => {
-        this._toastr.error(error , 'Error');
+        this._toastr.error("Something went wrong" , 'Error');
       },
     });
   }
@@ -88,6 +88,5 @@ export class AddUserComponent implements OnInit {
 
   onSelectSpecialty(e : any) {
     this.selectedSpecialty = e.target.value;
-    console.log(e.target.value)
   }
 }

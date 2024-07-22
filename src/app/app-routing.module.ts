@@ -21,7 +21,7 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
         canActivate: [RoleGuard],
-        data: { expectedRoles: [Role.Physician, Role.Reception , Role.UserCreator] },
+        data: { expectedRoles: Object.values(Role) },
       },
       {
         path: 'appointments',
