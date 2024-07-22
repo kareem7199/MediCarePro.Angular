@@ -22,6 +22,7 @@ import { AppointmentsComponent } from './features/appointments/appointments.comp
 import { ScheduleComponent } from './shared/components/schedule/schedule.component';
 import { ScheduleDialogComponent } from './shared/components/schedule-dialog/schedule-dialog.component';
 import { VisitsComponent } from './features/visits/visits.component';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -37,7 +38,8 @@ export function tokenGetter() {
     AppointmentsComponent,
     ScheduleComponent,
     ScheduleDialogComponent,
-    VisitsComponent
+    VisitsComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

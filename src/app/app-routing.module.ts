@@ -7,6 +7,7 @@ import { HomeComponent } from './features/home/home.component';
 import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
 import { AppointmentsComponent } from './features/appointments/appointments.component';
 import { VisitsComponent } from './features/visits/visits.component';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -35,6 +36,8 @@ const routes: Routes = [
       },
     ],
   },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '/404' },
 ];
 
 @NgModule({

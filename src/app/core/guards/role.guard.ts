@@ -24,6 +24,6 @@ export class RoleGuard implements CanActivate {
       if(this.authService.hasRole(expectedRole[i])) return true;
     }
 
-    return this.router.navigate(['/notfound']); // Navigate to 'not-authorized' route
+    return this.router.navigate(['/404']); // Navigate to 'not-authorized' route
   }
 }
