@@ -13,12 +13,12 @@
             >Home</a
           >
         </li>
-        <li *ngIf="_authService.getUserData()?.role === 'Reception'" class="nav-item">
+        <li *ngIf="_authService.hasRole('Reception')" class="nav-item">
           <a class="nav-link" routerLink="appointments" routerLinkActive="active"
             >Appointments</a
           >
         </li>
-        <li *ngIf="_authService.getUserData()?.role === 'Physician'" class="nav-item">
+        <li *ngIf="_authService.hasRole('Physician')" class="nav-item">
           <a class="nav-link" routerLink="visits" routerLinkActive="active"
             >Visits</a
           >

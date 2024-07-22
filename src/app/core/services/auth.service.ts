@@ -53,6 +53,16 @@ export class AuthService {
     return null;
   }
 
+  public hasRole(role: string): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    if (decodedToken) return decodedToken[Claims.Role].includes(role);
+
+    return false;
+  }
+
   logout(): void {
     // Remove the token from local storage
     localStorage.removeItem(this.tokenKey);
