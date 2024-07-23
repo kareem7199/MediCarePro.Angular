@@ -76,6 +76,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
     if (image && canvas) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.polygons = [];
         // Set canvas size to match the image size
@@ -84,29 +85,8 @@ export class VisitsComponent implements OnInit, OnDestroy {
         canvas.width = width;
         canvas.height = height;
 
-        this.drawPolygon(
-          ctx,
-          [
-            [width * 0.265, height * 0.3],
-            [width * 0.265, height * 0.29],
-            [width * 0.28, height * 0.24],
-            [width * 0.3, height * 0.23],
-            [width * 0.292222, height * 0.22],
-            [width * 0.28, height * 0.215],
-            [width * 0.25, height * 0.212],
-            [width * 0.24, height * 0.22],
-            [width * 0.25, height * 0.23],
-            [width * 0.24, height * 0.3],
-            [width * 0.22999, height * 0.32],
-            [width * 0.2199999, height * 0.34],
-            [width * 0.21, height * 0.35],
-            [width * 0.26, height * 0.35],
-          ],
-          'rgba(255, 255, 255, 0)',
-          1
-        );
+        this.generatePolygons(ctx, height, width);
 
-        canvas.addEventListener('click', (event) => this.handleClick(event));
       } else {
         console.error('Canvas context is not available');
       }
@@ -128,27 +108,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
           canvas.width = width;
           canvas.height = height;
 
-          this.drawPolygon(
-            ctx,
-            [
-              [width * 0.265, height * 0.3],
-              [width * 0.265, height * 0.29],
-              [width * 0.28, height * 0.24],
-              [width * 0.3, height * 0.23],
-              [width * 0.292222, height * 0.22],
-              [width * 0.28, height * 0.215],
-              [width * 0.25, height * 0.212],
-              [width * 0.24, height * 0.22],
-              [width * 0.25, height * 0.23],
-              [width * 0.24, height * 0.3],
-              [width * 0.22999, height * 0.32],
-              [width * 0.2199999, height * 0.34],
-              [width * 0.21, height * 0.35],
-              [width * 0.26, height * 0.35],
-            ],
-            'rgba(255, 255, 255, 0)',
-            1
-          );
+          this.generatePolygons(ctx, height, width);
 
           canvas.addEventListener('click', (event) => this.handleClick(event));
         } else {
@@ -160,6 +120,36 @@ export class VisitsComponent implements OnInit, OnDestroy {
     };
   }
 
+  generatePolygons(
+    ctx: CanvasRenderingContext2D,
+    height: number,
+    width: number
+  ) {
+    console.log(this.selectedPolygonId === 1 )
+    this.polygons = [];
+    this.drawPolygon(
+      ctx,
+      [
+        [width * 0.265, height * 0.3],
+        [width * 0.265, height * 0.29],
+        [width * 0.28, height * 0.24],
+        [width * 0.3, height * 0.23],
+        [width * 0.292222, height * 0.22],
+        [width * 0.28, height * 0.215],
+        [width * 0.25, height * 0.212],
+        [width * 0.24, height * 0.22],
+        [width * 0.25, height * 0.23],
+        [width * 0.24, height * 0.3],
+        [width * 0.22999, height * 0.32],
+        [width * 0.2199999, height * 0.34],
+        [width * 0.21, height * 0.35],
+        [width * 0.26, height * 0.35],
+      ],
+      `${this.selectedPolygonId === 1 ? 'rgba(255, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0)'}`,
+      1
+    );
+  }
+
   redrawCanvas() {
     const canvas = document.getElementById('myCanvas') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
@@ -168,12 +158,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
       // (or clear the whole canvas if necessary)
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const newPolygons = this.polygons;
-      this.polygons = [];
-      // Redraw polygons with updated colors
-      for (const polygon of newPolygons) {
-        this.drawPolygon(ctx, polygon.vertices, polygon.color, polygon.id);
-      }
+      this.generatePolygons(ctx, canvas.height, canvas.width);
     }
   }
 
@@ -227,10 +212,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
     // Check if the click is within any polygon
     for (const polygon of this.polygons) {
       if (this.isPointInPolygon([x, y], polygon.vertices)) {
-        this.polygons = this.polygons.map((el) => {
-          if (el.id == polygon.id) el.color = 'rgba(255, 0, 0, 0.2)';
-          return el;
-        });
+        this.selectedPolygonId = polygon.id;
         console.log(`polygon${polygon.id} clicked`);
         this.redrawCanvas();
         break;
@@ -259,8 +241,10 @@ export class VisitsComponent implements OnInit, OnDestroy {
 
   selectVisit(visit: DetailedVisit) {
     this.selectedVisit = visit;
+    this.selectedPolygonId = 0;
     this.cdRef.detectChanges(); // Ensure the view is updated
     this.initializeCanvasAndImage();
+    this.redrawCanvas();
   }
 
   formatDate(date: Date) {
