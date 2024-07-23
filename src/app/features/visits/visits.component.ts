@@ -252,19 +252,19 @@ export class VisitsComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this._physicianScreenService
-      .updateVisitDiagnosis(
-        this.selectedVisit!.id,
-        this.selectedVisit!.diagnosis
-      )
-      .subscribe({
-        next: (response) => {
-          this._toastr.success('Diagnosis updated successfully', 'Success');
-        },
-        error: (error) => {
-          this._toastr.error(error, 'Error');
-        },
-      });
+    // this._physicianScreenService
+    //   .updateVisitDiagnosis(
+    //     this.selectedVisit!.id,
+    //     this.selectedVisit!.diagnosis
+    //   )
+    //   .subscribe({
+    //     next: (response) => {
+    //       this._toastr.success('Diagnosis updated successfully', 'Success');
+    //     },
+    //     error: (error) => {
+    //       this._toastr.error(error, 'Error');
+    //     },
+    //   });
   }
 
   private sortByDate(a: DetailedVisit, b: DetailedVisit) {
