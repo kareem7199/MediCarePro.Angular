@@ -24,10 +24,8 @@ import * as moment from 'moment';
 export class VisitsComponent implements OnInit, OnDestroy {
   private polygons: {
     vertices: [number, number][];
-    color: string;
-    id: number;
+    boneName: string;
   }[] = [];
-  selectedPolygonId = 0;
   date!: Date;
   selectedVisit: DetailedVisit | null = null;
   visits: DetailedVisit[] = [];
@@ -76,7 +74,6 @@ export class VisitsComponent implements OnInit, OnDestroy {
     if (image && canvas) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.polygons = [];
         // Set canvas size to match the image size
@@ -86,7 +83,6 @@ export class VisitsComponent implements OnInit, OnDestroy {
         canvas.height = height;
 
         this.generatePolygons(ctx, height, width);
-
       } else {
         console.error('Canvas context is not available');
       }
@@ -125,7 +121,6 @@ export class VisitsComponent implements OnInit, OnDestroy {
     height: number,
     width: number
   ) {
-    console.log(this.selectedPolygonId === 1 )
     this.polygons = [];
     this.drawPolygon(
       ctx,
@@ -145,8 +140,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
         [width * 0.21, height * 0.35],
         [width * 0.26, height * 0.35],
       ],
-      `${this.selectedPolygonId === 1 ? 'rgba(255, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0)'}`,
-      1
+      'Right Humerus'
     );
   }
 
@@ -165,8 +159,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
   drawPolygon(
     ctx: CanvasRenderingContext2D,
     vertices: [number, number][],
-    color: string,
-    id: number
+    boneName: string
   ) {
     ctx.beginPath();
     ctx.moveTo(vertices[0][0], vertices[0][1]);
@@ -176,11 +169,15 @@ export class VisitsComponent implements OnInit, OnDestroy {
     }
 
     ctx.closePath();
-    ctx.fillStyle = color;
+    ctx.fillStyle = `${
+      this.selectedVisit?.diagnoses.find((d) => d.boneName === boneName)
+        ? 'rgba(255, 0, 0, 0.2)'
+        : 'rgba(255, 255, 255, 0)'
+    }`;
     ctx.fill();
 
     // Store polygon details
-    this.polygons.push({ vertices, color, id });
+    this.polygons.push({ vertices, boneName });
   }
 
   isPointInPolygon(
@@ -212,8 +209,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
     // Check if the click is within any polygon
     for (const polygon of this.polygons) {
       if (this.isPointInPolygon([x, y], polygon.vertices)) {
-        this.selectedPolygonId = polygon.id;
-        console.log(`polygon${polygon.id} clicked`);
+        console.log(`${polygon.boneName} clicked`);
         this.redrawCanvas();
         break;
       }
@@ -241,7 +237,6 @@ export class VisitsComponent implements OnInit, OnDestroy {
 
   selectVisit(visit: DetailedVisit) {
     this.selectedVisit = visit;
-    this.selectedPolygonId = 0;
     this.cdRef.detectChanges(); // Ensure the view is updated
     this.initializeCanvasAndImage();
     this.redrawCanvas();
