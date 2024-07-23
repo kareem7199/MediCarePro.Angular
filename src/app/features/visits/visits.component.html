@@ -40,6 +40,13 @@
         Please select a patient from the list.
       </p>
       <div *ngIf="selectedVisit" class="card">
+
+        <div class="w-100">
+          <div class="skeleton-container" id="cont">
+            <img id="myImage" src="./assets/images/skeleton.webp" class="skeleton" alt="">
+            <canvas id="myCanvas" class="canvas"></canvas>            
+          </div>
+        </div>
         <div class="card-header bg-primary text-white">
           <h1>{{ selectedVisit.patientName }}</h1>
           <h3>{{ formatDate(selectedVisit.date) }}</h3>

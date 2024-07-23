@@ -14,11 +14,14 @@ export class RoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+
+    if(!this.authService.getToken()) return this.router.navigate(['/login']);
+
     const expectedRole = route.data['expectedRoles']; // Access expectedRoles using bracket notation
 
     const userRole = this.authService.getUserData()?.role;
 
-    if(!userRole) this.router.navigate(['/login']);
+    // if(!userRole) this.router.navigate(['/login']);
 
     for(let i = 0 ; i < expectedRole.length ; i++){
       if(this.authService.hasRole(expectedRole[i])) return true;
