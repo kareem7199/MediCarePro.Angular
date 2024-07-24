@@ -28,13 +28,16 @@ export class PhysicianScreenService {
       );
   }
 
-  updateVisitDiagnosis(id : number , diagnosis : string){
+  updateVisitDiagnosis(diagnosisId:number , boneName : string , visitId : number , fees : number , procedure : string , diagnosisDetails : string){
     return this._http
-      .patch<any>(
-        `${environment.apiUrl}/PhysicianScreen/Visit`,
+      .put<Diagnosis>(
+        `${environment.apiUrl}/PhysicianScreen/Visit/${diagnosisId}`,
         {
-          id ,
-          diagnosis
+          boneName,
+          visitId,
+          fees,
+          procedure,
+          diagnosisDetails
         },
         {
           headers: {

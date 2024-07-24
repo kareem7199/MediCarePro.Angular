@@ -29,7 +29,7 @@ export class DiagnosisDialogComponent {
     this.diagnosis.procedure = data.procedure;
     this.diagnosis.diagnosisDetails = data.diagnosisDetails;
     this.diagnosis.fees = data.fees;
-    if (data.diagnosisId) this.diagnosisId = data.diagnosisId;
+    if (data.id) this.diagnosisId = data.id;
   }
 
   save() {
@@ -44,7 +44,29 @@ export class DiagnosisDialogComponent {
         )
         .subscribe({
           next: (data) => {
-            this._dignosisNotificationService.sendDiagnosis({...data , visitId : this.diagnosis.visitId});
+            this._dignosisNotificationService.sendDiagnosis({
+              ...data,
+              visitId: this.diagnosis.visitId,
+            });
+            this.dialogRef.close();
+          },
+        });
+    } else {
+      this._physicianScreenService
+        .updateVisitDiagnosis(
+          this.diagnosisId,
+          this.diagnosis.boneName,
+          this.diagnosis.visitId,
+          this.diagnosis.fees,
+          this.diagnosis.procedure,
+          this.diagnosis.diagnosisDetails
+        )
+        .subscribe({
+          next: (data) => {
+            this._dignosisNotificationService.updateDiagnosis({
+              ...data,
+              visitId: this.diagnosis.visitId,
+            });
             this.dialogRef.close();
           },
         });

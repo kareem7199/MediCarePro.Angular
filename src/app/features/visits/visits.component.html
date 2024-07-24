@@ -59,7 +59,7 @@
             </div>
           </div>
           <div *ngIf="this.selectedVisit.diagnoses.length">
-            <h1 class="text-center" >Diagnoses</h1>
+            <h1 class="text-center">Diagnoses</h1>
             <table class="table table-striped">
               <thead>
                 <th>Bone Name</th>
@@ -78,11 +78,11 @@
             </table>
           </div>
           <a
-          [href]="print(selectedVisit.id)"
-          target="_blank"
-          class="btn btn-info text-white w-100"
-          >Print</a
-        >
+            [href]="print(selectedVisit.id)"
+            target="_blank"
+            class="btn btn-info text-white w-100"
+            >Print</a
+          >
         </div>
       </div>
     </div>

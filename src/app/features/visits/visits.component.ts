@@ -83,6 +83,22 @@ export class VisitsComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this._diagnosisNotificationService.updatedDiagnosis$.subscribe((data) => {
+      if (data) {
+        for (let i = 0; i < this.visits.length; i++) {
+          if (this.visits[i].id === data.visitId) {
+            for (let j = 0; j < this.visits[i].diagnoses.length; j++) {
+              if (this.visits[i].diagnoses[j].id === data.id) {
+                this.visits[i].diagnoses[j] = data;
+                this.redrawCanvas();
+                break;
+              }
+            }
+          }
+        }
+      }
+    });
   }
 
   handleResize() {
@@ -231,6 +247,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
           this.selectedVisit?.diagnoses.find(
             (d) => d.boneName === polygon.boneName
           ) ?? null;
+          console.log(diagnosis);
         this.openDialog(
           polygon.boneName,
           this.selectedVisit?.id ?? 0,
