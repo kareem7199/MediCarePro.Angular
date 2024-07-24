@@ -12,7 +12,9 @@
       <div
         *ngFor="let visit of visits"
         class="list-group-item list-group-item-action cursor-pointer"
-        [class.bg-warning]="visit.diagnoses.length && visit.id !== selectedVisit?.id"
+        [class.bg-warning]="
+          visit.diagnoses.length && visit.id !== selectedVisit?.id
+        "
         [class.active]="visit.id === selectedVisit?.id"
         aria-current="true"
         (click)="selectVisit(visit)"
@@ -44,29 +46,43 @@
           <h1>{{ selectedVisit.patientName }}</h1>
           <h3>{{ formatDate(selectedVisit.date) }}</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body d-flex flex-column gap-4">
           <div class="w-100">
             <div class="skeleton-container" id="cont">
-              <img id="myImage" src="./assets/images/skeleton.webp" class="skeleton" alt="">
-              <canvas id="myCanvas" class="canvas"></canvas>            
+              <img
+                id="myImage"
+                src="./assets/images/skeleton.webp"
+                class="skeleton"
+                alt=""
+              />
+              <canvas id="myCanvas" class="canvas"></canvas>
             </div>
           </div>
-          <form (submit)="save()">
-            <!-- <textarea
-              class="form-control"
-              [(ngModel)]="selectedVisit.diagnosis"
-              placeholder="Enter diagnosis"
-              id="diagnosis"
-              name="diagnosis"
-              rows="8"
-            ></textarea> -->
-            <div class="row mt-3">
-              <div class="col text-center">
-                <button class="btn btn-primary">Save</button>
-                <a [href]="print(selectedVisit.id)" target="_blank" class="btn btn-info text-white mx-2">Print</a>
-              </div>
-            </div>
-          </form>
+          <div *ngIf="this.selectedVisit.diagnoses.length">
+            <h1 class="text-center" >Diagnoses</h1>
+            <table class="table table-striped">
+              <thead>
+                <th>Bone Name</th>
+                <th>Diagnosis</th>
+                <th>Procedure</th>
+                <th>Fees</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let diagnosis of selectedVisit.diagnoses">
+                  <td>{{ diagnosis.boneName }}</td>
+                  <td>{{ diagnosis.diagnosisDetails }}</td>
+                  <td>{{ diagnosis.procedure }}</td>
+                  <td>{{ diagnosis.fees }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <a
+          [href]="print(selectedVisit.id)"
+          target="_blank"
+          class="btn btn-info text-white w-100"
+          >Print</a
+        >
         </div>
       </div>
     </div>
