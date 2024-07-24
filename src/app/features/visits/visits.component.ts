@@ -15,6 +15,10 @@ import { PhysicianScreenService } from 'src/app/core/services/physician-screen.s
 import { DetailedVisit } from 'src/app/shared/models/DetailedVisit.model';
 import { VisitHubService } from 'src/app/core/services/visit-hub.service';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { DiagnosisDialogComponent } from 'src/app/shared/components/diagnosis-dialog/diagnosis-dialog.component';
+import { Diagnosis } from 'src/app/shared/models/Diagnosis.model';
+import { DiagnosisNotificationService } from 'src/app/core/services/diagnosis-notification.service';
 
 @Component({
   selector: 'app-visits',
@@ -43,7 +47,9 @@ export class VisitsComponent implements OnInit, OnDestroy {
     private _physicianScreenService: PhysicianScreenService,
     private _toastr: ToastrService,
     private _visitHubService: VisitHubService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    public dialog: MatDialog,
+    private _diagnosisNotificationService: DiagnosisNotificationService
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -65,6 +71,17 @@ export class VisitsComponent implements OnInit, OnDestroy {
           this.sound.play();
         }
       },
+    });
+
+    this._diagnosisNotificationService.newDiagnosis$.subscribe((data) => {
+      if (data) {
+        for (let i = 0; i < this.visits.length; i++) {
+          if (this.visits[i].id === data.visitId) {
+            this.visits[i].diagnoses.push(data);
+            this.redrawCanvas();
+          }
+        }
+      }
     });
   }
 
@@ -210,6 +227,15 @@ export class VisitsComponent implements OnInit, OnDestroy {
     for (const polygon of this.polygons) {
       if (this.isPointInPolygon([x, y], polygon.vertices)) {
         console.log(`${polygon.boneName} clicked`);
+        let diagnosis =
+          this.selectedVisit?.diagnoses.find(
+            (d) => d.boneName === polygon.boneName
+          ) ?? null;
+        this.openDialog(
+          polygon.boneName,
+          this.selectedVisit?.id ?? 0,
+          diagnosis
+        );
         this.redrawCanvas();
         break;
       }
@@ -268,5 +294,25 @@ export class VisitsComponent implements OnInit, OnDestroy {
 
   print(id: number) {
     return `https://localhost:44302/ReportViewer?id=${id}`;
+  }
+
+  openDialog(
+    boneName: string,
+    visitId: number,
+    diagnosis: Diagnosis | null
+  ): void {
+    const dialogRef = this.dialog.open(DiagnosisDialogComponent, {
+      width: '70%',
+      data: {
+        boneName: boneName,
+        visitId: visitId,
+        ...diagnosis,
+      }, // Pass any data if needed
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      // Handle any actions after dialog is closed
+    });
   }
 }

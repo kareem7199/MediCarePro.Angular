@@ -24,6 +24,7 @@ import { ScheduleDialogComponent } from './shared/components/schedule-dialog/sch
 import { VisitsComponent } from './features/visits/visits.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
+import { DiagnosisDialogComponent } from './shared/components/diagnosis-dialog/diagnosis-dialog.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -41,7 +42,8 @@ export function tokenGetter() {
     ScheduleDialogComponent,
     VisitsComponent,
     NotFoundComponent,
-    AddUserComponent
+    AddUserComponent,
+    DiagnosisDialogComponent
   ],
   imports: [
     BrowserModule,

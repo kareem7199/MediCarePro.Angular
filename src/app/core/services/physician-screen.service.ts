@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs';
 import { DetailedVisit } from 'src/app/shared/models/DetailedVisit.model';
+import { Diagnosis } from 'src/app/shared/models/Diagnosis.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,6 +35,30 @@ export class PhysicianScreenService {
         {
           id ,
           diagnosis
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this._authService.getToken()}`,
+          },
+        }
+      )
+      .pipe(
+        tap((response) => {
+          return response;
+        })
+      );
+  }
+
+  AddVisitDiagnosis(boneName : string , visitId : number , fees : number , procedure : string , diagnosisDetails : string){
+    return this._http
+      .post<Diagnosis>(
+        `${environment.apiUrl}/PhysicianScreen/Visit`,
+        {
+          boneName,
+          visitId,
+          fees,
+          procedure,
+          diagnosisDetails
         },
         {
           headers: {
