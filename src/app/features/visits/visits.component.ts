@@ -60,6 +60,24 @@ export class VisitsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._visitHubService.startConnection();
 
+    // this.selectVisit(
+    //   (this.selectedVisit = {
+    //     id: 0,
+    //     patientName: '',
+    //     date: new Date(),
+    //     diagnoses: [
+    //       {
+    //         id: 1,
+    //         boneName: 'Right Ulna',
+    //         fees: 1200,
+    //         procedure: 'Procedure',
+    //         diagnosisDetails: 'string',
+    //       },
+    //     ],
+    //     physicanFees: 0,
+    //   })
+    // );
+
     this.subscription = this._visitHubService.visitAdded.subscribe({
       next: (response) => {
         const date1 = moment(this.date);
@@ -175,6 +193,21 @@ export class VisitsComponent implements OnInit, OnDestroy {
       ],
       'Right Humerus'
     );
+
+    this.drawPolygon(
+      ctx,
+      [
+        [width * 0.24, height * .514],
+        [width * 0.24, height * .4],
+        [width * 0.26, height * .36],
+        [width * 0.2069, height * .37],
+        [width * 0.202, height * .405],
+        [width * 0.211, height * .47],
+        [width * 0.19, height * .49],
+        [width * 0.19, height * .49999],
+      ],
+      'Right Ulna'
+    );
   }
 
   redrawCanvas() {
@@ -204,7 +237,7 @@ export class VisitsComponent implements OnInit, OnDestroy {
     ctx.closePath();
     ctx.fillStyle = `${
       this.selectedVisit?.diagnoses.find((d) => d.boneName === boneName)
-        ? 'rgba(255, 0, 0, 0.2)'
+        ? 'rgba(255, 0, 0, 0.3)'
         : 'rgba(255, 255, 255, 0)'
     }`;
     ctx.fill();
@@ -247,7 +280,6 @@ export class VisitsComponent implements OnInit, OnDestroy {
           this.selectedVisit?.diagnoses.find(
             (d) => d.boneName === polygon.boneName
           ) ?? null;
-          console.log(diagnosis);
         this.openDialog(
           polygon.boneName,
           this.selectedVisit?.id ?? 0,
