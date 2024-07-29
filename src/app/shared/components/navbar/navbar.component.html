@@ -13,19 +13,24 @@
             >Home</a
           >
         </li>
-        <li *ngIf="_authService.hasRole('Reception')" class="nav-item">
+        <li *ngIf="_authService.hasRole(Roles.Reception)" class="nav-item">
           <a class="nav-link" routerLink="appointments" routerLinkActive="active"
             >Appointments</a
           >
         </li>
-        <li *ngIf="_authService.hasRole('Physician')" class="nav-item">
+        <li *ngIf="_authService.hasRole(Roles.Physician)" class="nav-item">
           <a class="nav-link" routerLink="visits" routerLinkActive="active"
             >Visits</a
           >
         </li>
-        <li *ngIf="_authService.hasRole('UserCreator')" class="nav-item">
+        <li *ngIf="_authService.hasRole(Roles.UserCreator)" class="nav-item">
           <a class="nav-link" routerLink="adduser" routerLinkActive="active"
             >Add User</a
+          >
+        </li>
+        <li *ngIf="_authService.hasRole(Roles.ItemCreator)" class="nav-item">
+          <a class="nav-link" routerLink="additem" routerLinkActive="active"
+            >Add Item</a
           >
         </li>
       </ul>

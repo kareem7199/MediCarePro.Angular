@@ -9,6 +9,7 @@ import { AppointmentsComponent } from './features/appointments/appointments.comp
 import { VisitsComponent } from './features/visits/visits.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
+import { AddItemComponent } from './features/add-item/add-item.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -40,6 +41,12 @@ const routes: Routes = [
         component: AddUserComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: [Role.UserCreator] },
+      },
+      {
+        path: 'additem',
+        component: AddItemComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: [Role.ItemCreator] },
       },
     ],
   },

@@ -25,6 +25,7 @@ import { VisitsComponent } from './features/visits/visits.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
 import { DiagnosisDialogComponent } from './shared/components/diagnosis-dialog/diagnosis-dialog.component';
+import { AddItemComponent } from './features/add-item/add-item.component';
 
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -43,7 +44,8 @@ export function tokenGetter() {
     VisitsComponent,
     NotFoundComponent,
     AddUserComponent,
-    DiagnosisDialogComponent
+    DiagnosisDialogComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule,

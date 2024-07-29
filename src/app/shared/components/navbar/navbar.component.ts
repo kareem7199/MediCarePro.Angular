@@ -7,5 +7,6 @@ import { Role } from '../../enums/role.enum';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
+  Roles = Role;
   constructor(public _authService: AuthService){}
 }
