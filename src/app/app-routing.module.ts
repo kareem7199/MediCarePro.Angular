@@ -10,6 +10,7 @@ import { VisitsComponent } from './features/visits/visits.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
 import { AddItemComponent } from './features/add-item/add-item.component';
+import { AddTransactionComponent } from './features/add-transaction/add-transaction.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -47,6 +48,12 @@ const routes: Routes = [
         component: AddItemComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: [Role.ItemCreator] },
+      },
+      {
+        path: 'addtransaction',
+        component: AddTransactionComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: [Role.TransactionCreator] },
       },
     ],
   },

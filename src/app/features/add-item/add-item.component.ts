@@ -22,7 +22,6 @@ export class AddItemComponent {
         this.name = '';
       },
       error: (error) => {
-        console.log(error);
         this._toastr.error(error.error.message, 'Error');
       },
     });

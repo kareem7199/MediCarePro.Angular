@@ -33,6 +33,11 @@
             >Add Item</a
           >
         </li>
+        <li *ngIf="_authService.hasRole(Roles.TransactionCreator)" class="nav-item">
+          <a class="nav-link" routerLink="addtransaction" routerLinkActive="active"
+            >Add Transaction</a
+          >
+        </li>
       </ul>
     </div>
     <button (click)="_authService.logout()" class="btn btn-danger ml-auto">

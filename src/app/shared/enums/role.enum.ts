@@ -2,5 +2,6 @@ export enum Role {
     Physician = 'Physician',
     Reception = 'Reception',
     UserCreator = 'UserCreator',
-    ItemCreator = 'ItemCreator'
+    ItemCreator = 'ItemCreator',
+    TransactionCreator = 'TransactionCreator'
 }

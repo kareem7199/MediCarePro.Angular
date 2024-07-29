@@ -1,0 +1,89 @@
+<div class="w-100">
+  <form
+    *ngIf="!loading"
+    (ngSubmit)="onSubmit()"
+    class="d-flex flex-column gap-3"
+  >
+    <h1>Add Transaction</h1>
+
+    <div class="form-group">
+      <label for="specialtySelect" class="mb-2">Item</label>
+      <div class="input-group">
+        <select
+          class="form-control"
+          id="item"
+          name="item"
+          [(ngModel)]="selectedItemId"
+          (change)="onSelectItem($event)"
+          required
+        >
+          <option *ngFor="let item of items" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="specialtySelect" class="mb-2">Action</label>
+      <div class="input-group">
+        <select
+          class="form-control"
+          id="action"
+          name="action"
+          [(ngModel)]="selectedAction"
+          required
+        >
+          <option value="In">In</option>
+          <option value="Out">Out</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">Quantity</label>
+      <input
+        type="number"
+        min="1"
+        class="form-control"
+        id="quantity"
+        name="quantity"
+        [(ngModel)]="quantity"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input
+        type="number"
+        min="1"
+        class="form-control"
+        id="amount"
+        name="amount"
+        [(ngModel)]="amount"
+      />
+    </div>
+
+    <button
+      class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+      [disabled]="disabled"
+    >
+      <span
+        class="spinner-grow text-white loading"
+        role="status"
+        *ngIf="disabled"
+      >
+        <span class="sr-only">Loading...</span>
+      </span>
+      Submit
+    </button>
+  </form>
+
+  <div
+    class="spinner-grow text-primary mx-auto d-flex"
+    role="status"
+    *ngIf="loading"
+  >
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
