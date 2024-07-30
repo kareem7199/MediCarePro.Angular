@@ -38,6 +38,11 @@
             >Add Transaction</a
           >
         </li>
+        <li *ngIf="_authService.hasRole(Roles.InventoryManager)" class="nav-item">
+          <a class="nav-link" routerLink="inventoryaccounting" routerLinkActive="active"
+            >Inventory Accounting</a
+          >
+        </li>
       </ul>
     </div>
     <button (click)="_authService.logout()" class="btn btn-danger ml-auto">

@@ -1,0 +1,71 @@
+<div class="w-100">
+    <form
+      *ngIf="!loading"
+      (ngSubmit)="onSubmit()"
+      class="d-flex flex-column gap-3"
+    >
+      <h1>Inventory Accounting</h1>
+  
+      <div class="form-group">
+        <label for="specialtySelect" class="mb-2">Item</label>
+        <div class="input-group">
+          <select
+            class="form-control"
+            id="item"
+            name="item"
+            [(ngModel)]="selectedItemId"
+            (change)="onSelectItem($event)"
+            required
+          >
+            <option *ngFor="let item of items" [value]="item.id">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="specialtySelect" class="mb-2">Strategy</label>
+        <div class="input-group">
+          <select
+            class="form-control"
+            id="action"
+            name="action"
+            [(ngModel)]="selectedStrategy"
+            required
+          >
+            <option value="FIFO">First in First out</option>
+            <option value="LIFO">Last in First out</option>
+          </select>
+        </div>
+      </div>
+  
+      <button
+        class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+        [disabled]="disabled"
+      >
+        <span
+          class="spinner-grow text-white loading"
+          role="status"
+          *ngIf="disabled"
+        >
+          <span class="sr-only">Loading...</span>
+        </span>
+        Submit
+      </button>
+    </form>
+  
+    <div class="alert alert-info my-4 d-flex align-items-center flex-column" *ngIf="result">
+        <h2>Inventory Accounting Result</h2>
+        <h1>{{result}} L.E</h1>
+    </div>
+    
+    <div
+      class="spinner-grow text-primary mx-auto d-flex"
+      role="status"
+      *ngIf="loading"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  

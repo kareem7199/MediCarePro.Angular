@@ -11,6 +11,7 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
 import { AddItemComponent } from './features/add-item/add-item.component';
 import { AddTransactionComponent } from './features/add-transaction/add-transaction.component';
+import { InventoryAccountingComponent } from './features/inventory-accounting/inventory-accounting.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -54,6 +55,12 @@ const routes: Routes = [
         component: AddTransactionComponent,
         canActivate: [RoleGuard],
         data: { expectedRoles: [Role.TransactionCreator] },
+      },
+      {
+        path: 'inventoryaccounting',
+        component: InventoryAccountingComponent,
+        canActivate: [RoleGuard],
+        data: { expectedRoles: [Role.InventoryManager] },
       },
     ],
   },
